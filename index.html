@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pock Paper Game</title>
+    <style>
+        body {
+            background-color: black;
+            color: #FFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 1000px;
+        }
+        .container {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-align: center;
+            background-color: gray;
+            padding: 20px;
+            border: 0px solid white;
+            width: 40%;
+            height: 80%;
+            box-shadow: 0 0 10px rgba(248, 247, 247, 0.5);
+            color: black;
+            border-radius: 60px;
+        }
+
+        #container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px; 
+        }
+        #score, #score2 {
+            font-size: 1.5em;
+            color: black;
+            margin: 0;
+        }
+
+        #display, #opponent {
+            display: inline-block;
+            width: 45%;
+            vertical-align: top;
+        }
+
+        #displayimage, #displayimage2 {
+            height: 150px;
+            margin-top: 20px;
+        }
+
+        #displaytext {
+            font-size: 1.5em;
+            color: black;
+            margin: 20px 0;
+        }
+        h2{
+            /* display: flex; */
+            margin-left: 3px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        #fbutton, #resetbutton {
+            background-color: green;
+            color: #333;
+            width: 150px;
+            height: 60px;
+            border-radius: 30px;
+            border: none;
+            margin: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 80px;
+            margin: 50px;
+        }
+        .photo{
+            margin-top: 40px;
+        }
+        .score {
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        #resetbutton {
+            background-color: red;
+        }
+
+        #fbutton:hover, #resetbutton:hover {
+            background-color: #555;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ROCK-PAPER-SCISSORS</h1>
+        <p id="displaytext"></p>
+        <div id="display" class="photo">
+            <h2>YOU</h2>
+            <img id="displayimage" src="paper.png" alt="Choice Image">
+        </div>
+        <div id="opponent" class="photo">
+            <h2>COMPUTER</h2>
+            <img id="displayimage2" src="paper.png" alt="Choice Image">
+        </div>
+        <div class="score">
+            <h2>Score Board</h2>
+            <p>WINS: <span id="wins">0</span></p>
+            <p>LOSSES: <span id="losses">0</span></p>
+            <p>DRAWS: <span id="ties">0</span></p>
+        </div>
+        <div>
+            <button id="fbutton" onclick="playGame()">FIGHT!</button>
+            <button id="resetbutton" onclick="resetScores()">RESET</button>
+        </div>
+    </div>
+    <script>
+        const choices = ["bato.png", "paper.png", "scissor.png"];
+        let wins = 0;
+        let losses = 0;
+        let ties = 0;
+
+        function playGame() {
+            const playerPickImg = document.getElementById('displayimage');
+            const computerPickImg = document.getElementById('displayimage2');
+            const playerIndex = Math.floor(Math.random() * choices.length);
+            const computerIndex = Math.floor(Math.random() * choices.length);
+            const playerChoice = choices[playerIndex];
+            const computerChoice = choices[computerIndex];
+
+            playerPickImg.src = playerChoice;
+            computerPickImg.src = computerChoice;
+
+            if (playerChoice === computerChoice) {
+                ties++;
+            } else if (
+                (playerChoice === "bato.png" && computerChoice === "scissor.png") ||
+                (playerChoice === "paper.png" && computerChoice === "bato.png") ||
+                (playerChoice === "scissor.png" && computerChoice === "paper.png")
+            ) {
+                wins++;
+            } else {
+                losses++;
+            }
+
+            document.getElementById('wins').textContent = wins;
+            document.getElementById('losses').textContent = losses;
+            document.getElementById('ties').textContent = ties;
+
+            if (wins === 10 || losses === 10) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            let resultText = "";
+            if (wins === 10) {
+                resultText = "Congratulations! You won the game!";
+            } else {
+                resultText = "Game over! Computer won the game.";
+            }
+            document.getElementById('displaytext').textContent = resultText;
+            document.getElementById('fbutton').disabled = true;
+            document.getElementById('resetbutton').disabled = false;
+        }
+
+        function resetScores() {
+            wins = 0;
+            losses = 0;
+            ties = 0;
+            document.getElementById('wins').textContent = wins;
+            document.getElementById('losses').textContent = losses;
+            document.getElementById('ties').textContent = ties;
+
+            document.getElementById('displayimage').src = "paper.png";
+            document.getElementById('displayimage2').src = "paper.png";
+
+            document.getElementById('displaytext').textContent = "";
+
+            document.getElementById('fbutton').disabled = false;
+            document.getElementById('resetbutton').disabled = true;
+        }
+    </script>
+</body>
+</html>
